@@ -10,13 +10,7 @@
 //    Log the formatted string
 
 const greetings = (nameArr, jobObj) => {
-  let nameStr = '';
-  let i = 0;
-  while (nameArr[i]) {
-    nameStr += `${nameArr[i]} `;
-    i += 1;
-  } 
-  nameStr = nameStr.trimEnd(); // remove the trailing space
+  let nameStr = nameArr.join(' ');
   return `Hello, ${nameStr}! Nice to have a ${jobObj.title} ` +
          `${jobObj.occupation} around.`;
 };
