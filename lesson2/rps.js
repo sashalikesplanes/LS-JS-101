@@ -83,7 +83,16 @@ const keepPlaying = () => {
   else return false;
 };
 
-prompt(`Welcome to ${VALID_CHOICE.join(', ')}`);
+const printGrandWinner = () => {
+  if (playerScore === 3) {
+    console.log('You are grand winner!');
+  } else if (compScore === 3) {
+    console.log('Computer is grand winner!');
+  }
+};
+
+console.clear();
+prompt(`Welcome to ${VALID_CHOICE.join(', ')}. First to 3 points wins!`);
 
 playerScore = 0;
 compScore = 0;
@@ -100,16 +109,17 @@ while (true) {
 
   printScore(playerScore, compScore);
 
-  if (playerScore === 3) {
-    console.log('You are grand winner!');
-  } else if (compScore === 3) {
-    console.log('Computer is grand winner!');
-  }
+  printGrandWinner();
+
   if (playerScore === 3 || compScore === 3) {
     if (keepPlaying()) {
       playerScore = 0;
       compScore = 0;
+      console.clear();
     } else break;
+  } else {
+    readline.question('Press "ENTER" for next round!\n');
+    console.clear();
   }
 }
 
