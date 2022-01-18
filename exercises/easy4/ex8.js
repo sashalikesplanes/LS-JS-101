@@ -1,6 +1,8 @@
 const wordSizes = sentence => {
   if (sentence.trim() === '') return {};
-  const sentenceArr = sentence.split(' ').map(word => word.length).sort();
+  const sentenceArr = sentence.replace(/[^a-zA-Z\s]/g, '').split(' ').map(word => {
+    return word.toLowerCase().length;
+  }).sort();
   const wordLengthObj = {};
   for (let i = 0; i < sentenceArr.length; i += 1) {
     if (wordLengthObj[sentenceArr[i]]) wordLengthObj[sentenceArr[i]] += 1;
