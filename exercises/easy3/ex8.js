@@ -8,4 +8,4 @@ const getGrade = (grade1, grade2, grade3) => {
     case 6: return 'D';
     default: return 'F';
   }
-}
+};
