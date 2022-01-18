@@ -34,7 +34,7 @@ const getFullChoiceFromFirstLetter = choice => {
 
 const getPlayerChoice = () => {
   prompt(`Choose one: ${VALID_CHOICE.join(', ')}, also you can type the first letter only`);
-  let choice = readline.question();
+  let choice = readline.question().toLowerCase();
   if (choice.length === 1) choice = getFullChoiceFromFirstLetter(choice);
 
   while (!VALID_CHOICE.includes(choice)) {
@@ -74,7 +74,7 @@ const printScore = (playerScore, compScore) => {
 const keepPlaying = () => {
   prompt('Would you like to play again? (y/n)');
   let continueGame = readline.question().toLowerCase();
-  while (continueGame[0] !== 'y' && continueGame[0] !== 'n') {
+  while (continueGame !== 'y' && continueGame !== 'n') {
     prompt('Please enter "y" or "n"');
     continueGame = readline.question().toLowerCase();
   }
@@ -88,6 +88,17 @@ const printGrandWinner = () => {
     console.log('You are grand winner!');
   } else if (compScore === 3) {
     console.log('Computer is grand winner!');
+  }
+};
+
+const resetGame = (resetScores = false) => {
+  if (resetScores) {
+    playerScore = 0;
+    compScore = 0;
+    console.clear();
+  } else {
+    readline.question('Press "ENTER" for next round!\n');
+    console.clear();
   }
 };
 
@@ -112,14 +123,7 @@ while (true) {
   printGrandWinner();
 
   if (playerScore === 3 || compScore === 3) {
-    if (keepPlaying()) {
-      playerScore = 0;
-      compScore = 0;
-      console.clear();
-    } else break;
-  } else {
-    readline.question('Press "ENTER" for next round!\n');
-    console.clear();
-  }
+    if (keepPlaying()) resetGame(true);
+    else break;
+  } else resetGame();
 }
-
