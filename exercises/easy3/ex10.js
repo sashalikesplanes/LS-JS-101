@@ -13,5 +13,4 @@ const century = year => {
     case '3': return centuryStr + 'rd';
     default: return centuryStr + 'th';
   }
-
 };
