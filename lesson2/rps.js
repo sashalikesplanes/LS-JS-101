@@ -4,6 +4,13 @@
 
 const readline = require('readline-sync');
 const VALID_CHOICE = ['rock', 'paper', 'scissors'];
+const ONE_LETTER_TO_CHOICE = {
+  r: 'rock',
+  p: 'paper',
+  s: 'scissors',
+};
+const WINNING_MOVES = ['rockscissors', 'scissorspaper', 'paperrock'];
+const NUM_OF_POINTS_TO_WIN = 3;
 
 let playerScore;
 let compScore;
@@ -11,35 +18,24 @@ let compScore;
 const prompt = msg => console.log(`=> ${msg}`);
 
 const printRoundWinner = winner => {
-  if (winner === 1) prompt('You won!');
-  else if (winner === -1) prompt('Computer won :(');
+  if (winner === 'player') prompt('You won!');
+  else if (winner === 'computer') prompt('Computer won :(');
   else prompt('It\'s a draw.');
 };
 
 const getFullChoiceFromFirstLetter = choice => {
-  let fullChoice;
-  switch (choice) {
-    case 'r':
-      fullChoice = 'rock';
-      break;
-    case 'p':
-      fullChoice = 'paper';
-      break;
-    case 's':
-      fullChoice = 'scissors';
-      break;
-  }
-  return fullChoice;
+  if (ONE_LETTER_TO_CHOICE[choice.toLowerCase()[0]]) {
+    return ONE_LETTER_TO_CHOICE[choice.toLowerCase()[0]];
+  } else return '';
 };
 
 const getPlayerChoice = () => {
   prompt(`Choose one: ${VALID_CHOICE.join(', ')}, also you can type the first letter only`);
-  let choice = readline.question().toLowerCase();
-  if (choice.length === 1) choice = getFullChoiceFromFirstLetter(choice);
+  let choice = getFullChoiceFromFirstLetter(readline.question());
 
   while (!VALID_CHOICE.includes(choice)) {
     prompt("Thats not a valid choice!");
-    choice = readline.question();
+    choice = getFullChoiceFromFirstLetter(readline.question());
   }
   return choice;
 };
@@ -50,21 +46,16 @@ const getCompChoice = () => {
 };
 
 const updateScores = winner => {
-  if (winner === 1) playerScore += 1;
-  else if (winner === -1) compScore += 1;
+  if (winner === 'player') playerScore += 1;
+  else if (winner === 'computer') compScore += 1;
 };
 
 const getWinner = (playerChoice, compChoice) => {
   // Returns 1 if player won, 0 if draw, -1 if comp won
-  if ((playerChoice === 'rock' && compChoice === 'scissors') ||
-  (playerChoice === 'scissors' && compChoice === 'paper') ||
-  (playerChoice === 'paper' && compChoice === 'rock')) {
-    return 1;
-  } else if (playerChoice === compChoice) {
-    return 0;
-  } else {
-    return -1;
-  }
+  if (playerChoice === compChoice) return 'tie';
+  const moveCombo = playerChoice + compChoice;
+  if (WINNING_MOVES.includes(moveCombo)) return 'player';
+  else return 'computer';
 };
 
 const printScore = (playerScore, compScore) => {
@@ -84,9 +75,9 @@ const keepPlaying = () => {
 };
 
 const printGrandWinner = () => {
-  if (playerScore === 3) {
+  if (playerScore === NUM_OF_POINTS_TO_WIN) {
     console.log('You are grand winner!');
-  } else if (compScore === 3) {
+  } else if (compScore === NUM_OF_POINTS_TO_WIN) {
     console.log('Computer is grand winner!');
   }
 };
@@ -103,7 +94,7 @@ const resetGame = (resetScores = false) => {
 };
 
 console.clear();
-prompt(`Welcome to ${VALID_CHOICE.join(', ')}. First to 3 points wins!`);
+prompt(`Welcome to ${VALID_CHOICE.join(', ')}. First to ${NUM_OF_POINTS_TO_WIN} points wins!`);
 
 playerScore = 0;
 compScore = 0;
@@ -122,8 +113,13 @@ while (true) {
 
   printGrandWinner();
 
-  if (playerScore === 3 || compScore === 3) {
+  if (playerScore === NUM_OF_POINTS_TO_WIN
+      || compScore === NUM_OF_POINTS_TO_WIN) {
     if (keepPlaying()) resetGame(true);
-    else break;
+    else {
+      prompt('Thank you for playing! Press "ENTER" to exit the game.');
+      readline.question();
+      break;
+    }
   } else resetGame();
 }
