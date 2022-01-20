@@ -1,6 +1,6 @@
 // P
 // input: string of length 0 or more with no spaces
-// output: array of 0 or more strings which are all palindorms
+// output: array of 0 or more strings which are all palindromes
 // rules:
 //    Explicit:
 //      - every palindromic substring from original string must be in array
