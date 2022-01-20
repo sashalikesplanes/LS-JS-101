@@ -25,7 +25,7 @@
 //      sum += current integer
 //  return sum
 
-const sumEvenRows = row => {
+const sumEvenRows = (row) => {
   if (row === 0) return 0;
   if (row === 1) return 2;
 

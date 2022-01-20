@@ -1,5 +1,5 @@
 const multiply = (array, multiplier) => {
-  return array.map(value => value * multiplier);
+  return array.map((value) => value * multiplier);
 };
 
 let myNumbers = [1, 4, 3, 7, 2, 6];
