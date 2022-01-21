@@ -6,8 +6,8 @@ let munsters = {
   Marilyn: { age: 23, gender: "female" },
 };
 
-let totalAge = Object.values(munsters).reduce(
-  (sum, munster) => sum + munster.age,
-  0
-);
+let totalAge = Object.values(munsters).reduce((sum, munster) => {
+  if (munster.gender === "male") return sum + munster.age;
+  else return sum;
+}, 0);
 console.log(totalAge);
