@@ -1,6 +1,3 @@
-// TODO
-// Implement Minimax algo
-
 const readline = require("readline-sync");
 
 const GRID_WIDTH = 11;
